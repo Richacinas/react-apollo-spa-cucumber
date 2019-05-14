@@ -1,0 +1,17 @@
+{
+  "name": "react-apollo-spa-cucumber",
+  "description": "Useful boilerplate to start developing a scalable app, based on React, Apollo, Webpack, etc...",
+  "repository": "https://github.com/Richacinas/react-apollo-spa-cucumber",
+  "logo": "https://i.ibb.co/8sdJFJn/7575535521536211769-original.png",
+  "keywords": [
+    "react",
+    "universal",
+    "webpack",
+    "hot reloading",
+    "react-hot-reloader",
+    "apollo",
+    "starter",
+    "boilerplate",
+    "babel"
+  ]
+}
