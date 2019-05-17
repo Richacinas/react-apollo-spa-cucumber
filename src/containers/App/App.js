@@ -2,16 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { renderRoutes } from 'react-router-config';
+import styles from './App.scss';
 
 @withRouter
 class App extends Component {
   static propTypes = {
     route: PropTypes.objectOf(PropTypes.any).isRequired,
-    location: PropTypes.objectOf(PropTypes.any).isRequired
-  };
-
-  state = {
-    prevProps: this.props // eslint-disable-line react/no-unused-state
+    location: PropTypes.objectOf(PropTypes.any).isRequired,
   };
 
   componentDidUpdate(prevProps) {
@@ -24,14 +21,11 @@ class App extends Component {
 
   render() {
     const { route } = this.props;
-    const styles = require('./App.scss');
 
     return (
       <div className={styles.app}>
         APP EN PRUEBAS
-        <div className={styles.appContent}>
-          {renderRoutes(route.routes)}
-        </div>
+        <div className={styles.appContent}>{renderRoutes(route.routes)}</div>
       </div>
     );
   }

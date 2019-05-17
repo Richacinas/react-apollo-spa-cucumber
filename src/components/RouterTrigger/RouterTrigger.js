@@ -7,25 +7,17 @@ class RouterTrigger extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     location: PropTypes.objectOf(PropTypes.any).isRequired,
-    trigger: PropTypes.func
+    trigger: PropTypes.func,
   };
 
-  static defaultProps = {
-    trigger: () => {}
-  };
+  static defaultProps = { trigger: () => {} };
 
-  state = {
-    needTrigger: false,
-    location: null,
-    previousLocation: null
-  };
+  state = { needTrigger: false };
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps = (props, state) => {
     const { location } = state;
 
-    const {
-      location: { pathname, search }
-    } = props;
+    const { location: { pathname, search } } = props;
 
     const navigated = !location || `${pathname}${search}` !== `${location.pathname}${location.search}`;
 
@@ -33,12 +25,12 @@ class RouterTrigger extends Component {
       return {
         needTrigger: true,
         location: props.location,
-        previousLocation: location || props.location
+        previousLocation: location || props.location,
       };
     }
 
     return null;
-  }
+  };
 
   componentDidMount() {
     this.mounted = true;

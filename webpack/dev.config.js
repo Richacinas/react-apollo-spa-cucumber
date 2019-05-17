@@ -24,45 +24,44 @@ const babelrcObjectDevelopment = (babelrcObject.env && babelrcObject.env.develop
 // merge global and dev-only plugins
 const combinedPlugins = (babelrcObject.plugins || []).concat(babelrcObjectDevelopment.plugins);
 
-const babelLoaderQuery = Object.assign({}, babelrcObject, babelrcObjectDevelopment, { plugins: combinedPlugins });
+const babelLoaderQuery = Object.assign(
+  {},
+  babelrcObject,
+  babelrcObjectDevelopment,
+  { plugins: combinedPlugins }
+);
 delete babelLoaderQuery.env;
 
 const webpackConfig = {
   mode: 'development',
   devtool: 'inline-source-map',
   context: path.resolve(__dirname, '..'),
-  entry: {
-    main: [
-      './src/index.js'
-    ]
-  },
+  entry: { main: ['./src/index.js'] },
   output: {
     path: assetsPath,
     filename: '[name]-[hash].js',
     chunkFilename: '[name]-[chunkhash].chunk.js',
-    publicPath: `http://${host}:${port}/`
+    publicPath: `http://${host}:${port}/`,
   },
-  performance: {
-    hints: false
-  },
+  performance: { hints: false },
   module: {
     rules: [
       {
         enforce: 'pre',
         test: /\.jsx$/,
         exclude: /node_modules/,
-        loader: 'eslint-loader'
+        loader: 'eslint-loader',
       },
       {
         test: /\.jsx?$/,
         include: [path.resolve(__dirname, '../src')],
         loader: 'babel-loader',
-        options: babelLoaderQuery
+        options: babelLoaderQuery,
       },
       {
         test: /\.json$/,
         include: [path.resolve(__dirname, '../src')],
-        loader: 'json-loader'
+        loader: 'json-loader',
       },
       {
         test: /\.(sa|sc|c)ss$/,
@@ -70,7 +69,7 @@ const webpackConfig = {
         loaders: [
           {
             loader: 'style-loader',
-            options: { sourceMap: true }
+            options: { sourceMap: true },
           },
           {
             loader: 'css-loader',
@@ -78,67 +77,63 @@ const webpackConfig = {
               modules: true,
               importLoaders: 2,
               sourceMap: true,
-              localIdentName: '[local]___[hash:base64:5]'
-            }
+              localIdentName: '[local]___[hash:base64:5]',
+            },
           },
           {
             loader: 'postcss-loader',
             options: {
               sourceMap: true,
-              config: {
-                path: 'postcss.config.js'
-              }
-            }
+              config: { path: 'postcss.config.js' },
+            },
           },
           {
             loader: 'sass-loader',
             options: {
               outputStyle: 'expanded',
-              sourceMap: true
-            }
-          }
-        ]
+              sourceMap: true,
+            },
+          },
+        ],
       },
       {
         test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'url-loader',
         options: {
           limit: 10240,
-          mimetype: 'application/font-woff'
-        }
+          mimetype: 'application/font-woff',
+        },
       },
       {
         test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'url-loader',
         options: {
           limit: 10240,
-          mimetype: 'application/octet-stream'
-        }
+          mimetype: 'application/octet-stream',
+        },
       },
       {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'file-loader'
+        loader: 'file-loader',
       },
       {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'url-loader',
         options: {
           limit: 10240,
-          mimetype: 'image/svg+xml'
-        }
+          mimetype: 'image/svg+xml',
+        },
       },
       {
-        test:/\.(png|jpg|gif)$/i,
+        test: /\.(png|jpg|gif)$/i,
         loader: 'url-loader',
-        options: {
-          limit: 10240
-        }
-      }
-    ]
+        options: { limit: 10240 },
+      },
+    ],
   },
   resolve: {
     modules: ['src', 'node_modules'],
-    extensions: ['.json', '.js', '.jsx']
+    extensions: ['.json', '.js', '.jsx'],
   },
   plugins: [
     // https://goo.gl/dTQYan
@@ -150,18 +145,16 @@ const webpackConfig = {
     new webpack.DefinePlugin({
       __CLIENT__: true,
       __DEVELOPMENT__: true,
-      __DEVTOOLS__: true // <-------- DISABLE redux-devtools HERE
+      __DEVTOOLS__: true, // <-------- DISABLE redux-devtools HERE
     }),
 
-    new ReactLoadablePlugin({
-      filename: path.join(assetsPath, 'loadable-chunks.json')
-    }),
+    new ReactLoadablePlugin({ filename: path.join(assetsPath, 'loadable-chunks.json') }),
 
-    new HtmlWebpackPlugin({ 
-      template: './src/helpers/index.html', 
-      filename: './index.html' 
-    })
-  ]
+    new HtmlWebpackPlugin({
+      template: './src/helpers/index.html',
+      filename: './index.html',
+    }),
+  ],
 };
 
 module.exports = webpackConfig;

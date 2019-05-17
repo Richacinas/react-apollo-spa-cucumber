@@ -1,17 +1,7 @@
 import React, { Component } from 'react';
+import styles from './Home.scss';
+import logoImage from './logo.png';
 
-class Home extends Component {
-
-  render() {
-    const styles = require('./Home.scss');
-    // require the logo image both from client and server
-    const logoImage = require('./logo.png');
-    return (
-      <div className={styles.home}>
-        HOME sweet HOME
-      </div>
-    );
-  }
-}
+const Home = () => <div className={styles.home}>HOME sweet HOME</div>;
 
 export default Home;

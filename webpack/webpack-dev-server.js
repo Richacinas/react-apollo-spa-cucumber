@@ -9,16 +9,14 @@ const serverOptions = {
   hot: true,
   inline: true,
   lazy: false,
-  host: host,
-  port: port,
-  headers: { 'Access-Control-Allow-Origin': '*' }
+  host,
+  port,
+  headers: { 'Access-Control-Allow-Origin': '*' },
 };
 
-fullWebpackConfig = {
+const fullWebpackConfig = {
   ...webpackConfig,
-  devServer: {
-    ...serverOptions
-  }
-}
+  devServer: { ...serverOptions },
+};
 
 module.exports = fullWebpackConfig;

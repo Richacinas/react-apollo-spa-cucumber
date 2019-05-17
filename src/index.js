@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /**
  * THIS IS THE ENTRY POINT FOR THE CLIENT OF OUR SPA
  */
@@ -20,9 +21,7 @@ import NProgress from 'nprogress';
 const dest = document.getElementById('content');
 
 const client = apiClient();
-const providers = {
-  client
-};
+const providers = { client };
 
 (async () => {
   const history = createBrowserHistory();
@@ -36,7 +35,7 @@ const providers = {
       match,
       params,
       history,
-      location: history.location
+      location: history.location,
     };
 
     await trigger('inject', components, triggerLocals);
@@ -46,13 +45,15 @@ const providers = {
     await trigger('defer', components, triggerLocals);
 
     NProgress.done();
-  }; 
+  };
 
   const hydrate = _routes => {
     const element = (
       <HotEnabler>
         <Router history={history}>
-          <RouterTrigger trigger={pathname => triggerHooks(_routes, pathname)}>{renderRoutes(_routes)}</RouterTrigger>
+          <RouterTrigger trigger={pathname => triggerHooks(_routes, pathname)}>
+            {renderRoutes(_routes)}
+          </RouterTrigger>
         </Router>
       </HotEnabler>
     );
@@ -71,8 +72,7 @@ const providers = {
   // Hot reload
   if (module.hot) {
     module.hot.accept('./routes', () => {
-      const nextRoutes = require('./routes');
-      hydrate(nextRoutes.__esModule ? nextRoutes.default : nextRoutes)
+      hydrate(routes.__esModule ? routes.default : routes);
     });
   }
 

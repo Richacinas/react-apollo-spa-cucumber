@@ -7,9 +7,9 @@ const routes = [
     routes: [
       { path: '/', exact: true, component: Home },
       { path: '/test', component: About },
-      { component: NotFound }
-    ]
-  }
+      { component: NotFound },
+    ],
+  },
 ];
 
 export default routes;

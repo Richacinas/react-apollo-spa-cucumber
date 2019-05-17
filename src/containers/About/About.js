@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
+import kitten from './kitten.jpg';
 
 class About extends Component {
-  state = {
-    showKitten: false
-  };
+  state = { showKitten: false };
 
   handleToggleKitten = () => {
     const { showKitten } = this.state;
@@ -13,7 +12,6 @@ class About extends Component {
 
   render() {
     const { showKitten } = this.state;
-    const kitten = require('./kitten.jpg');
 
     return (
       <div className="container">

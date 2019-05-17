@@ -1,9 +1,7 @@
 import axios from 'axios';
 
-export default function apiClient(req) {
-  const instance = axios.create({
-    baseURL: '/api'
-  });
+const apiClient = req => {
+  const instance = axios.create({ baseURL: '/api' });
 
   let token;
 
@@ -28,4 +26,6 @@ export default function apiClient(req) {
   );
 
   return instance;
-}
+};
+
+export default apiClient;

@@ -16,18 +16,14 @@ module.exports = {
   mode: 'production',
   devtool: 'source-map',
   context: path.resolve(__dirname, '..'),
-  entry: {
-    main: ['./src/index.js']
-  },
+  entry: { main: ['./src/index.js'] },
   output: {
     path: assetsPath,
     filename: '[name]-[chunkhash].js',
     chunkFilename: '[name]-[chunkhash].chunk.js',
-    publicPath: '/dist/'
+    publicPath: '/dist/',
   },
-  performance: {
-    hints: false
-  },
+  performance: { hints: false },
   optimization: {
     // for MiniCssExtractPlugin:
     //
@@ -45,16 +41,16 @@ module.exports = {
       new TerserPlugin({
         cache: true,
         parallel: true,
-        sourceMap: true // set to true if you want JS source maps
-      })
-    ]
+        sourceMap: true, // set to true if you want JS source maps
+      }),
+    ],
   },
   module: {
     rules: [
       {
         test: /\.jsx?$/,
         loader: 'babel-loader',
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
       {
         test: /\.scss$/,
@@ -66,69 +62,65 @@ module.exports = {
               options: {
                 modules: true,
                 importLoaders: 2,
-                sourceMap: true
-              }
+                sourceMap: true,
+              },
             },
             {
               loader: 'postcss-loader',
               options: {
                 sourceMap: true,
-                config: {
-                  path: 'postcss.config.js'
-                }
-              }
+                config: { path: 'postcss.config.js' },
+              },
             },
             {
               loader: 'sass-loader',
               options: {
                 outputStyle: 'expanded',
                 sourceMap: true,
-                sourceMapContents: true
-              }
-            }
-          ]
-        })
+                sourceMapContents: true,
+              },
+            },
+          ],
+        }),
       },
       {
         test: /\.woff2?(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'url-loader',
         options: {
           limit: 10240,
-          mimetype: 'application/font-woff'
-        }
+          mimetype: 'application/font-woff',
+        },
       },
       {
         test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'url-loader',
         options: {
           limit: 10240,
-          mimetype: 'application/octet-stream'
-        }
+          mimetype: 'application/octet-stream',
+        },
       },
       {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'file-loader'
+        loader: 'file-loader',
       },
       {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'url-loader',
         options: {
           limit: 10240,
-          mimetype: 'image/svg+xml'
-        }
+          mimetype: 'image/svg+xml',
+        },
       },
       {
         test: /\.(png|jpg|gif)$/i,
         loader: 'url-loader',
-        options: {
-          limit: 10240
-        }
-      }
-    ]
+        options: { limit: 10240 },
+      },
+    ],
   },
   resolve: {
     modules: ['src', 'node_modules'],
-    extensions: ['.json', '.js', '.jsx']
+    extensions: ['.json', '.js', '.jsx'],
   },
   plugins: [
     /* wepack build status - show webpack build progress in terminal */
@@ -140,23 +132,21 @@ module.exports = {
     new ExtractTextPlugin({
       filename: '[name]-[chunkhash].css',
       // disable: false,
-      allChunks: true
+      allChunks: true,
     }),
 
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"production"',
       __CLIENT__: true,
       __DEVELOPMENT__: false,
-      __DEVTOOLS__: false
+      __DEVTOOLS__: false,
     }),
 
     // ignore dev config
     new webpack.IgnorePlugin(/\.\/dev/, /\/config$/),
 
-    new ReactLoadablePlugin({
-      filename: path.join(assetsPath, 'loadable-chunks.json')
-    }),
+    new ReactLoadablePlugin({ filename: path.join(assetsPath, 'loadable-chunks.json') }),
 
-    new HtmlWebpackPlugin()
-  ]
+    new HtmlWebpackPlugin(),
+  ],
 };
