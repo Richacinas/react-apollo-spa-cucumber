@@ -10,7 +10,6 @@ import { Router } from 'react-router';
 import { renderRoutes } from 'react-router-config';
 import { trigger } from 'redial';
 import { createBrowserHistory } from 'history';
-import Loadable from 'react-loadable';
 import { AppContainer as HotEnabler } from 'react-hot-loader';
 import apiClient from 'helpers/apiClient';
 import routes from 'routes';
@@ -23,28 +22,30 @@ const dest = document.getElementById('content');
 const client = apiClient();
 const providers = { client };
 
-(async () => {
+(() => {
   const history = createBrowserHistory();
 
   const triggerHooks = async (_routes, pathname) => {
     NProgress.start();
 
-    const { components, match, params } = await asyncMatchRoutes(_routes, pathname);
-    const triggerLocals = {
-      ...providers,
-      match,
-      params,
-      history,
-      location: history.location,
-    };
+    setTimeout(async () => {
+      const { components, match, params } = await asyncMatchRoutes(_routes, pathname);
+      const triggerLocals = {
+        ...providers,
+        match,
+        params,
+        history,
+        location: history.location,
+      };
 
-    await trigger('inject', components, triggerLocals);
+      await trigger('inject', components, triggerLocals);
 
-    // Fetch mandatory data dependencies for 2nd route change onwards:
-    await trigger('fetch', components, triggerLocals);
-    await trigger('defer', components, triggerLocals);
+      // Fetch mandatory data dependencies for 2nd route change onwards:
+      await trigger('fetch', components, triggerLocals);
+      await trigger('defer', components, triggerLocals);
 
-    NProgress.done();
+      NProgress.done();
+    }, 3000);
   };
 
   const hydrate = _routes => {
@@ -65,8 +66,6 @@ const providers = { client };
     }
   };
 
-  await Loadable.preloadReady();
-
   hydrate(routes);
 
   // Hot reload
@@ -74,10 +73,5 @@ const providers = { client };
     module.hot.accept('./routes', () => {
       hydrate(routes.__esModule ? routes.default : routes);
     });
-  }
-
-  // Server-side rendering check
-  if (process.env.NODE_ENV !== 'production') {
-    window.React = React; // enable debugger
   }
 })();

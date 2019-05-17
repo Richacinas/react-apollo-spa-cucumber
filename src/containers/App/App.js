@@ -23,9 +23,9 @@ class App extends Component {
     const { route } = this.props;
 
     return (
-      <div className={styles.app}>
+      <div className="app">
         APP EN PRUEBAS
-        <div className={styles.appContent}>{renderRoutes(route.routes)}</div>
+        <div className="appContent">{renderRoutes(route.routes)}</div>
       </div>
     );
   }

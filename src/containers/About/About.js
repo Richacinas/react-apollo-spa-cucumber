@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import kitten from './kitten.jpg';
+import styles from './About.scss';
 
 class About extends Component {
   state = { showKitten: false };

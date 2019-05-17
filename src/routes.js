@@ -6,7 +6,7 @@ const routes = [
     component: App,
     routes: [
       { path: '/', exact: true, component: Home },
-      { path: '/test', component: About },
+      { path: '/about', component: About },
       { component: NotFound },
     ],
   },

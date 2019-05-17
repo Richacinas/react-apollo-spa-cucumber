@@ -12,6 +12,7 @@ const serverOptions = {
   host,
   port,
   headers: { 'Access-Control-Allow-Origin': '*' },
+  historyApiFallback: true,
 };
 
 const fullWebpackConfig = {

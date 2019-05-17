@@ -1,7 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import styles from './Home.scss';
-import logoImage from './logo.png';
 
-const Home = () => <div className={styles.home}>HOME sweet HOME</div>;
+const Home = () => (
+  <div className="home">
+    HOME sweet HOME
+    <Link to="/about">Ir a ABOUT</Link>
+  </div>
+);
 
 export default Home;
