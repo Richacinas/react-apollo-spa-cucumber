@@ -6,56 +6,55 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Router } from 'react-router';
+import { BrowserRouter } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
-import { trigger } from 'redial';
-import { createBrowserHistory } from 'history';
 import { AppContainer as HotEnabler } from 'react-hot-loader';
-import apiClient from 'helpers/apiClient';
 import routes from 'routes';
-import asyncMatchRoutes from 'utils/asyncMatchRoutes';
 import { RouterTrigger } from 'components';
 import NProgress from 'nprogress';
+import ApolloClient from 'apollo-boost';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloProvider } from 'react-apollo-hooks';
+import { resolvers, typeDefs } from './resolvers';
 
+const cache = new InMemoryCache();
 const dest = document.getElementById('content');
 
-const client = apiClient();
-const providers = { client };
+const client = new ApolloClient({
+  uri: 'http://localhost:4010/api/graphql',
+  cache,
+  typeDefs,
+  resolvers,
+});
 
-(() => {
-  const history = createBrowserHistory();
+const data = {
+  User: {
+    nombre: 'carlos',
+    apellido: 'lara',
+    edad: 28,
+    __typename: 'User',
+    id: 'idRandom',
+  },
+};
 
+cache.writeData({ data });
+client.onResetStore(() => cache.writeData({ data }));
+
+(async () => {
   const triggerHooks = async (_routes, pathname) => {
     NProgress.start();
 
-    setTimeout(async () => {
-      const { components, match, params } = await asyncMatchRoutes(_routes, pathname);
-      const triggerLocals = {
-        ...providers,
-        match,
-        params,
-        history,
-        location: history.location,
-      };
-
-      await trigger('inject', components, triggerLocals);
-
-      // Fetch mandatory data dependencies for 2nd route change onwards:
-      await trigger('fetch', components, triggerLocals);
-      await trigger('defer', components, triggerLocals);
-
-      NProgress.done();
-    }, 3000);
+    NProgress.done();
   };
 
   const hydrate = _routes => {
     const element = (
       <HotEnabler>
-        <Router history={history}>
+        <BrowserRouter>
           <RouterTrigger trigger={pathname => triggerHooks(_routes, pathname)}>
-            {renderRoutes(_routes)}
+            <ApolloProvider client={client}>{renderRoutes(_routes)}</ApolloProvider>
           </RouterTrigger>
-        </Router>
+        </BrowserRouter>
       </HotEnabler>
     );
 

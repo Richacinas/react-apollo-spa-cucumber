@@ -5,7 +5,8 @@ import styles from './Home.scss';
 const Home = () => (
   <div className="home">
     HOME sweet HOME
-    <Link to="/about">Ir a ABOUT</Link>
+    <br />
+    <Link to="/register">Ir a REGISTER</Link>
   </div>
 );
 

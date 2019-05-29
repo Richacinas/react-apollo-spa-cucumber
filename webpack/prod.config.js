@@ -6,7 +6,6 @@ const webpack = require('webpack');
 const CleanPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const { ReactLoadablePlugin } = require('react-loadable/webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const projectRootPath = path.resolve(__dirname, '../');
@@ -25,25 +24,29 @@ module.exports = {
   },
   performance: { hints: false },
   optimization: {
-    // for MiniCssExtractPlugin:
-    //
-    // splitChunks: {
-    //   cacheGroups: {
-    //     styles: {
-    //       name: 'styles',
-    //       test: /\.(less|scss)$/,
-    //       chunks: 'all',
-    //       enforce: true
-    //     }
-    //   }
-    // },
     minimizer: [
       new TerserPlugin({
         cache: true,
         parallel: true,
-        sourceMap: true, // set to true if you want JS source maps
+        sourceMap: true,
       }),
     ],
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /node_modules/,
+          chunks: 'initial',
+          name: 'vendor',
+          enforce: true
+        },
+        styles: {
+          name: 'styles',
+          test: /\.(less|scss)$/,
+          chunks: 'all',
+          enforce: true
+        },
+      },
+    },
   },
   module: {
     rules: [
@@ -144,8 +147,6 @@ module.exports = {
 
     // ignore dev config
     new webpack.IgnorePlugin(/\.\/dev/, /\/config$/),
-
-    new ReactLoadablePlugin({ filename: path.join(assetsPath, 'loadable-chunks.json') }),
 
     new HtmlWebpackPlugin(),
   ],

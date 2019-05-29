@@ -2,7 +2,6 @@
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
-const { ReactLoadablePlugin } = require('react-loadable/webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const assetsPath = path.resolve(__dirname, '../static/dist');
@@ -146,8 +145,6 @@ const webpackConfig = {
       __DEVELOPMENT__: true,
       __DEVTOOLS__: true, // <-------- DISABLE redux-devtools HERE
     }),
-
-    new ReactLoadablePlugin({ filename: path.join(assetsPath, 'loadable-chunks.json') }),
 
     new HtmlWebpackPlugin({
       template: './src/helpers/index.html',

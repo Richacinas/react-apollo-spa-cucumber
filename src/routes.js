@@ -1,5 +1,4 @@
-import { App, Home, NotFound } from 'containers';
-import About from 'containers/About/Loadable';
+import { App, Home, About, Register, NotFound } from 'containers';
 
 const routes = [
   {
@@ -7,6 +6,7 @@ const routes = [
     routes: [
       { path: '/', exact: true, component: Home },
       { path: '/about', component: About },
+      { path: '/register', component: Register },
       { component: NotFound },
     ],
   },
